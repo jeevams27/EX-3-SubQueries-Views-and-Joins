@@ -1,5 +1,6 @@
 # EX 3 SubQueries, Views and Joins 
-
+## Aim:
+To view implement SubQueries, Views and Joins.
 
 ## Create employee Table
 ```sql
@@ -66,49 +67,61 @@ INSERT INTO DEPT (DEPTNO, DNAME, LOC) VALUES (40, 'OPERATIONS', 'BOSTON');
 ```
 
 ### Q1) List the name of the employees whose salary is greater than that of employee with empno 7566.
-
-
 ### QUERY:
-
+```
+SELECT ename FROM EMP WHERE sal > (SELECT sal FROM EMP WHERE empno = 7566);
+```
 
 ### OUTPUT:
-
+![Alt text](image.png)
 ### Q2) List the ename,job,sal of the employee who get minimum salary in the company.
 
 ### QUERY:
-
+```
+SELECT ename,job,sal FROM EMP WHERE sal = (SELECT MIN(sal) FROM EMP);
+```
 
 ### OUTPUT:
+![Alt text](image-1.png)
 
 ### Q3) List ename, job of the employees who work in deptno 10 and his/her job is any one of the job in the department ‘SALES’.
 
 ### QUERY:
-
+```
+SELECT ename,job FROM EMP WHERE deptno = 10 AND job IN (SELECT job FROM EMP WHERE job = 'sales');
+```
 
 ### OUTPUT:
-
+![Alt text](image-2.png)
 
 ### Q4) Create a view empv5 (for the table emp) that contains empno, ename, job of the employees who work in dept 10.
 
 ### QUERY:
-
-
+```
+create view empv5 as select EMPNO,ENAME,JOB from EMP where DEPTNO=10;
+SELECT * FROM empv5;
+```
 ### OUTPUT:
-
+![Alt text](image-3.png)
 ### Q5) Create a view with column aliases empv30 that contains empno, ename, sal of the employees who work in dept 30. Also display the contents of the view.
 
 ### QUERY:
 
-
+```
+create view empv30 AS select EMPNO,ENAME,SAL from EMP where DEPTNO=30;
+```
 ### OUTPUT:
-
+![Alt text](image-4.png)
 ### Q6) Update the view empv5 by increasing 10% salary of the employees who work as ‘CLERK’. Also confirm the modifications in emp table
 
 ### QUERY:
-
+```
+update EMP set SAL=SAL*1.1 WHERE JOB='clerk';
+create view emplov5 as select EMPNO,ENAME,SAL,JOB from EMP;
+```
 
 ### OUTPUT:
-
+![Alt text](image-5.png)
 ## Create a Customer1 Table
 ```sql
 CREATE TABLE Customer1 (customer_id INT,cust_name VARCHAR(20),city VARCHAR(20),grade INT,salesman_id INT);
@@ -140,28 +153,44 @@ INSERT INTO Salesman1 (salesman_id, name, city, commission) VALUES(5003, 'Lauson
 ### Q7) Write a SQL query to find the salesperson and customer who reside in the same city. Return Salesman, cust_name and city.
 
 ### QUERY:
-
+```
+select s.name,c.cust_name,s.city from salesman1 s ,customer1 c where s.city=c.city;
+```
 
 ### OUTPUT:
-
+![Alt text](image-6.png)
 ### Q8) Write a SQL query to find salespeople who received commissions of more than 13 percent from the company. Return Customer Name, customer city, Salesman, commission.
 
 
 ### QUERY:
-
+```
+select s.name,c.cust_name,c.city,s.commission from salesman1 s inner join customer1 c on s.city=c.city where s.commission>0.13;
+```
 
 ### OUTPUT:
+![Alt text](image-7.png)
 
 ### Q9) Perform Natural join on both tables
-
 ### QUERY:
-
-
+```
+ select * from salesman1 s natural join customer1 c;
+```
 ### OUTPUT:
-
+![Alt text](image-8.png)
 ### Q10) Perform Left and right join on both tables
 
 ### QUERY:
+```
+select s.name,c.cust_name,c.city,s.commission from salesman1 s left join customer1 c on s.salesman_id=c.salesman_id;
 
-
+select s.name,c.cust_name,c.city,s.commission from salesman1 s right join customer1 c on s.salesman_id=c.salesman_id;
+```
 ### OUTPUT:
+### Left Join:
+![Alt text](image-9.png)
+
+### Right Join:
+![Alt text](image-10.png)
+
+## Result:
+Thus, a database is created and implementation of views,subqueries and joins is executed successfully.
